@@ -43,7 +43,9 @@
       "Bash(git remote add:*)",
       "Bash(npx create-expo-app:*)",
       "Read(E:\\1code\\passionproject/**)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(pnpm start:*)"
     ],
     "deny": [],
     "ask": [],

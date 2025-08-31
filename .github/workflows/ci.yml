@@ -1,0 +1,114 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 🏗 Setup repo
+      uses: actions/checkout@v3
+
+    - name: 🏗 Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.x
+        cache: 'npm'
+
+    - name: 🏗 Setup pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+
+    - name: 📦 Install dependencies
+      run: pnpm install
+
+    - name: 🧹 Lint code
+      run: pnpm lint
+
+    - name: 🔍 Type check
+      run: pnpm type-check
+
+    - name: 🧪 Run tests
+      run: pnpm test
+
+  build-preview:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    needs: test
+    
+    steps:
+    - name: 🏗 Setup repo
+      uses: actions/checkout@v3
+
+    - name: 🏗 Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.x
+        cache: 'npm'
+
+    - name: 🏗 Setup pnpm  
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+
+    - name: 🏗 Setup EAS
+      uses: expo/expo-github-action@v8
+      with:
+        expo-version: latest
+        eas-version: latest
+        token: ${{ secrets.EXPO_TOKEN }}
+
+    - name: 📦 Install dependencies
+      run: pnpm install
+
+    - name: 🚀 Build preview
+      run: eas build --profile preview --platform all --non-interactive
+
+  build-production:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: test
+    
+    steps:
+    - name: 🏗 Setup repo
+      uses: actions/checkout@v3
+
+    - name: 🏗 Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.x
+        cache: 'npm'
+
+    - name: 🏗 Setup pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+
+    - name: 🏗 Setup EAS
+      uses: expo/expo-github-action@v8
+      with:
+        expo-version: latest
+        eas-version: latest
+        token: ${{ secrets.EXPO_TOKEN }}
+
+    - name: 📦 Install dependencies
+      run: pnpm install
+
+    - name: 🚀 Build production
+      run: eas build --profile production --platform all --non-interactive
+
+    - name: 📱 Submit to stores
+      if: startsWith(github.ref, 'refs/tags/v')
+      run: |
+        eas submit --platform ios --non-interactive
+        eas submit --platform android --non-interactive
+      env:
+        EXPO_APPLE_ID: ${{ secrets.EXPO_APPLE_ID }}
+        EXPO_ASC_APP_ID: ${{ secrets.EXPO_ASC_APP_ID }}
+        EXPO_APPLE_TEAM_ID: ${{ secrets.EXPO_APPLE_TEAM_ID }}
