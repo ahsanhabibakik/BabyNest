@@ -56,7 +56,8 @@
       "Bash(npx expo install:*)",
       "Bash(git remote remove:*)",
       "Bash(git push:*)",
-      "Bash(pnpm add:*)"
+      "Bash(pnpm add:*)",
+      "Bash(taskkill:*)"
     ],
     "deny": [],
     "ask": [],
