@@ -51,42 +51,7 @@ export default ({ config }) => {
       bundler: 'metro'
     },
     plugins: [
-      'expo-router',
-      [
-        'expo-notifications',
-        {
-          icon: './assets/notification-icon.png',
-          color: '#ffffff',
-          defaultChannel: 'default'
-        }
-      ],
-      [
-        'expo-camera',
-        {
-          cameraPermission: 'Allow BabyNest to access your camera to capture baby milestones.'
-        }
-      ],
-      [
-        'expo-image-picker',
-        {
-          photosPermission: 'The app accesses your photos to let you share baby memories.'
-        }
-      ],
-      [
-        'expo-font',
-        {
-          fonts: [
-            './assets/fonts/Inter-Regular.ttf',
-            './assets/fonts/Inter-Medium.ttf',
-            './assets/fonts/Inter-SemiBold.ttf',
-            './assets/fonts/Inter-Bold.ttf',
-            './assets/fonts/Poppins-Regular.ttf',
-            './assets/fonts/Poppins-Medium.ttf',
-            './assets/fonts/Poppins-SemiBold.ttf',
-            './assets/fonts/Poppins-Bold.ttf'
-          ]
-        }
-      ]
+      // Simplified plugins for web development
     ],
     extra: {
       eas: {

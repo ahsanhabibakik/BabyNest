@@ -57,7 +57,10 @@
       "Bash(git remote remove:*)",
       "Bash(git push:*)",
       "Bash(pnpm add:*)",
-      "Bash(taskkill:*)"
+      "Bash(taskkill:*)",
+      "Bash(tree:*)",
+      "Bash(npx kill-port:*)",
+      "Bash(pnpm web:*)"
     ],
     "deny": [],
     "ask": [],
